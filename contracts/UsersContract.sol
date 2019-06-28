@@ -11,6 +11,7 @@ contract UsersContract {
     // coleccion de usuarios (mapping): permite enlazar direcciones de ethereum a usuarios. Para cada direccion representaremos un usuario
     mapping(address => User) private users;
     mapping(address => bool) private joinedUsers;
+    address[] total;
 
     // con esta funcion los usuarios van a poder registrarse para pasar a formar parte de nuestro mapping de usuarios
     function join(string name, string surName) public {
@@ -34,6 +35,9 @@ contract UsersContract {
 
         // guarda usuarios registrados para evitar que vuelvan a hacerlo
         joinedUsers[msg.sender] = true;
+
+        // registro de array de todas las direcciones
+        total.push(msg.sender);
     }
 
     // devuelve nombre y apellido del usuario que hace la transacción
@@ -50,6 +54,11 @@ contract UsersContract {
     // retorna si la dirección ha sido registrada
     function userJoined(address addr) private view returns (bool) {
         return joinedUsers[addr];
+    }
+
+    // retorna cantidad de usuarios
+    function totalUsers() public view returns (uint) {
+        return total.length;
     }
 
 }

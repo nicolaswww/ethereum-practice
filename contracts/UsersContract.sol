@@ -13,6 +13,8 @@ contract UsersContract {
     mapping(address => bool) private joinedUsers;
     address[] total;
 
+    event onUserJoined(address, string);
+
     // con esta funcion los usuarios van a poder registrarse para pasar a formar parte de nuestro mapping de usuarios
     function join(string name, string surName) public {
         // valida que el usuario no se haya registrado previamente
@@ -38,6 +40,9 @@ contract UsersContract {
 
         // registro de array de todas las direcciones
         total.push(msg.sender);
+
+        // emite evento al unirse un usuario
+        emit onUserJoined(msg.sender, string(abi.encodePacked(name, " ", surName)));
     }
 
     // devuelve nombre y apellido del usuario que hace la transacción
